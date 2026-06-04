@@ -1,32 +1,31 @@
 name: Automatic deployment ✨
 
 on:
-    # Trigger workflow when pushing to "dev"
-    push:
-        branches:
-            - dev
+  # Trigger workflow when pushing to "dev"
+  push:
+    branches:
+      - dev
 
-	# Add manual triggers too
-	workflow_dispatch:
-
+  # Add manual triggers too
+  workflow_dispatch:
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout source code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-size: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # <-- Fixed typo from node-size
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Build and Deploy
-              run: npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Gives the script permission to push to gh-pages
+      - name: Build and Deploy
+        run: npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
