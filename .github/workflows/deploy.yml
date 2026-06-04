@@ -20,12 +20,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # <-- Fixed typo from node-size
+          node-version: 24
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build and Deploy
-        run: npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
