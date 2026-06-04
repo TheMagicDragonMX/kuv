@@ -28,7 +28,7 @@ jobs:
       - name: Build and Deploy
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.name "Publisher O.o"
           npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
