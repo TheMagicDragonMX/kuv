@@ -1,0 +1,27 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Triggers the automation whenever you push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-size: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and Deploy
+        run: npx ng deploy --base-href=/${{ github.event.repository.name }}/ --no-silent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Gives the script permission to push to gh-pages
